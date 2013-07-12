@@ -8,6 +8,7 @@ use Zend\Stdlib\Hydrator\ClassMethods;
 use ZfcUser\Mapper\UserInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use ZfcUserAdmin\Options\ModuleOptions;
+use ZfcUserAdmin\Mapper\UserZendDb;
 
 class UserAdminController extends AbstractActionController
 {
@@ -20,7 +21,7 @@ class UserAdminController extends AbstractActionController
 
     public function listAction()
     {
-        $userMapper = $this->getUserMapper();
+        $userMapper = new UserZendDb();
         $users = $userMapper->findAll();
         if (is_array($users)) {
             $paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter($users));
@@ -35,6 +36,23 @@ class UserAdminController extends AbstractActionController
             'userlistElements' => $this->getOptions()->getUserListElements()
         );
     }
+    /*public function listAction()
+    {
+        $userMapper = $this->getUserMapper();
+        $users = $userMapper->findAll();
+        if (is_array($users)) {
+            $paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter($users));
+        } else {
+            $paginator = $users;
+        }
+
+        //$paginator->setItemCountPerPage(100);
+       // $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
+        return array(
+            'users' => $paginator,
+            'userlistElements' => $this->getOptions()->getUserListElements()
+        );
+    }*/
 
     public function createAction()
     {

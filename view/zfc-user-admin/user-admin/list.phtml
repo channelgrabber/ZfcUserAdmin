@@ -31,14 +31,16 @@ foreach ($this->userlistElements as $element) {
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->users as $user): ?>
+    <?php foreach ($this->users as $user):
+       ?>
         <tr>
             <?php foreach ($this->userlistElements as $element): ?>
                 <td class="cell cell-<?php echo $this->escapeHtml($element) ?>">
                     <?php $parts = explode('_', $element); ?>
-                    <?php echo call_user_func(array($user, $getters[$element])); ?>
+                    <?php echo $user->$getters[$element](); ?>
                 </td>
             <?php endforeach; ?>
+
             <td class="cell cell-ctrls">
                 <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/edit', array('userId' => $user->getId())); ?>">
                     <?php echo $this->translate('Edit') ?>
@@ -53,10 +55,6 @@ foreach ($this->userlistElements as $element) {
     <?php endforeach; ?>
     </tbody>
     <tfoot>
-    <tr>
-        <td colspan="<?php echo count($this->userlistElements) + 1; ?>">
-            <?php echo $this->paginationControl($this->users, 'Sliding', 'zfc-user-admin/user-admin/pagination_userlist.phtml'); ?>
-        </td>
-    </tr>
+
     </tfoot>
 </table>
