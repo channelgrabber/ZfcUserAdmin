@@ -22,16 +22,9 @@ class UserAdminController extends AbstractActionController
     {
         $userMapper = $this->getUserMapper();
         $users = $userMapper->findAll();
-        if (is_array($users)) {
-            $paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter($users));
-        } else {
-            $paginator = $users;
-        }
 
-        $paginator->setItemCountPerPage(100);
-        $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
-        return array(
-            'users' => $paginator,
+       return array(
+            'users' => $users,
             'userlistElements' => $this->getOptions()->getUserListElements()
         );
     }
